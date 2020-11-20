@@ -1,13 +1,7 @@
 enum Cell {
-  /**
-   * Initial state, can be filled or marked empty
-   */
-  Blank,
+  Unknown,
   Filled,
-  /**
-   * A "confirmed" empty cell (cannot be filled)
-   */
-  Empty,
+  Unfilled,
 }
 
 export default Cell
