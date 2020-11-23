@@ -1,6 +1,7 @@
-import { equals, filter } from 'ramda'
+import { equals, filter, repeat } from 'ramda'
 import Board from './board'
 import Cell from './cell'
+import hint, { Hint } from './hint'
 
 /**
  *  0, 1, 2, 3, 4
@@ -12,11 +13,16 @@ import Cell from './cell'
 const width = 5
 const height = 5
 
+const toHints = (
+  row: Hint[] = repeat(hint(0), width),
+  column: Hint[] = repeat(hint(0), height),
+) => ({ row, column } as const)
+
 describe('Board', () => {
   let board: Board
 
   beforeEach(() => {
-    board = new Board(width, height)
+    board = new Board(width, height, { hints: toHints() })
   })
 
   describe('setup', () => {
