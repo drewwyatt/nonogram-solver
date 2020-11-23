@@ -13,39 +13,46 @@ import hint, { Hint } from './hint'
 const width = 5
 const height = 5
 
-const toHints = (
-  row: Hint[] = repeat(hint(0), width),
-  column: Hint[] = repeat(hint(0), height),
-) => ({ row, column } as const)
-
 describe('Board', () => {
-  let board: Board
-
-  beforeEach(() => {
-    board = new Board(width, height, { hints: toHints() })
-  })
+  const subject = (
+    row: Hint[] = repeat(hint(0), width),
+    column: Hint[] = repeat(hint(0), height),
+  ) => new Board(width, height, { hints: { row, column } })
 
   describe('setup', () => {
     it('has the correct number of cells', () => {
-      expect(board.cells.length).toEqual(width * height)
+      expect(subject().cells.length).toEqual(width * height)
     })
 
     it('sets all cells to an initial value of "unknown"', () => {
-      expect(filter(equals(Cell.Unknown), board.cells).length).toEqual(width * height)
+      expect(filter(equals(Cell.Unknown), subject().cells).length).toEqual(width * height)
     })
 
     it('has the configured number of rows', () => {
-      expect(board.rows.length).toEqual(width)
+      expect(subject().rows.length).toEqual(width)
     })
 
     it('has the configured number of columns', () => {
-      expect(board.columns.length).toEqual(height)
+      expect(subject().columns.length).toEqual(height)
     })
 
-    it.todo('has the correct number of hints?')
+    it('throws if there are too many hints', () => {
+      expect(() => subject(repeat(hint(0), width + 1))).toThrowError()
+    })
+
+    it('throws if there are not enough hints', () => {
+      expect(() =>
+        subject(repeat(hint(0), width), repeat(hint(0), height - 1)),
+      ).toThrowError()
+    })
   })
 
   describe('cells', () => {
+    let board: Board
+    beforeEach(() => {
+      board = subject()
+    })
+
     describe('rows', () => {
       it('reflects row updates in cells', () => {
         board.rows[1].cells[1] = Cell.Filled
