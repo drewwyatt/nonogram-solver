@@ -45,6 +45,24 @@ describe('Board', () => {
         subject(repeat(hint(0), width), repeat(hint(0), height - 1)),
       ).toThrowError()
     })
+
+    it('does not throw if a hint is exactly the right size', () => {
+      expect(() =>
+        subject([
+          ...repeat(hint(0), width - 1),
+          hint(1, 1, 1), // 3 blocks + 2 empty spaces = 5
+        ]),
+      ).not.toThrowError()
+    })
+
+    it('throws if a hint is impossible (larger than the slice)', () => {
+      expect(() =>
+        subject([
+          ...repeat(hint(0), width - 1),
+          hint(1, 1, 1, 1), // 4 blocks + 3 empty spaces = 7
+        ]),
+      ).toThrowError()
+    })
   })
 
   describe('cells', () => {
