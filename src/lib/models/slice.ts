@@ -11,11 +11,9 @@ class Slice {
   cells: Cell[]
   readonly hint: Hint
 
-  constructor(public index: number, public axis: 'row' | 'column', boardInfo: BoardInfo) {
+  constructor(public index: number, axis: 'row' | 'column', boardInfo: BoardInfo) {
     this.cells = new Proxy(boardInfo.cells, {
-      get: (target, prop) => {
-        return target[this.#toIndexFor(axis, boardInfo, prop)]
-      },
+      get: (target, prop) => target[this.#toIndexFor(axis, boardInfo, prop)],
       set: (target, prop, value: Cell) => {
         const index = this.#toIndexFor(axis, boardInfo, prop)
         if (index < 0 || index >= boardInfo.cells.length) {

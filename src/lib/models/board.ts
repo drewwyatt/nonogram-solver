@@ -1,23 +1,36 @@
-import { repeat } from 'ramda'
+import { repeat, times } from 'ramda'
 import { InvalidLength } from '~/errors/hint-errors'
-import Cell from './cell'
 import hint, { Hint } from './hint'
 import { exists } from '~/utils'
+import Cell from './cell'
+import Slice from './slice'
 
 type Config = {
   hints?: { row: Hint[]; column: Hint[] }
 }
 
 class Board {
-  rowHints: Hint[]
-  columnHints: Hint[]
   cells: Cell[]
+  rows: Slice[]
+  columns: Slice[]
+
+  #rowHints: Hint[]
+  #columnHints: Hint[]
 
   constructor(public width: number, public height: number, config: Config = {}) {
     this.#assertValidHints({ width, height }, config.hints)
-    this.rowHints = config.hints?.row ?? this.#toDefaultHints(width)
-    this.columnHints = config.hints?.column ?? this.#toDefaultHints(height)
+    this.#rowHints = config.hints?.row ?? this.#toDefaultHints(width)
+    this.#columnHints = config.hints?.column ?? this.#toDefaultHints(height)
     this.cells = repeat(Cell.Unknown, width * height)
+    this.rows = times(
+      idx => new Slice(idx, 'row', { cells: this.cells, hints: this.#rowHints, width }),
+      height,
+    )
+    this.columns = times(
+      idx =>
+        new Slice(idx, 'column', { cells: this.cells, hints: this.#columnHints, width }),
+      width,
+    )
   }
 
   #assertValidHints = (
