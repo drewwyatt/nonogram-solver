@@ -23,3 +23,12 @@ export class InvalidLengthError extends HintError {
     )
   }
 }
+
+export class ImpossibleHintError extends HintError {
+  constructor(rowOrColumn: 'row' | 'column', size: number, hint: number[]) {
+    super(
+      'Impossible Hint',
+      `${rowOrColumn} size is ${size}, received hint "${JSON.stringify(hint)}"`,
+    )
+  }
+}

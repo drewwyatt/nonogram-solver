@@ -1,5 +1,5 @@
-import { repeat, times } from 'ramda'
-import { InvalidLengthError } from '~/errors/hint-errors'
+import { repeat, sum, times } from 'ramda'
+import { ImpossibleHintError, InvalidLengthError } from '~/errors/hint-errors'
 import { Hint } from './hint'
 import Cell from './cell'
 import Slice from './slice'
@@ -41,7 +41,22 @@ class Board {
     if (hints.column.length !== this.height) {
       throw new InvalidLengthError('column', this.height, hints.column.length)
     }
+
+    let impossibleHint = hints.row.find(this.#hintExceedsMaxSize(this.width))
+    if (impossibleHint) {
+      throw new ImpossibleHintError('row', this.width, impossibleHint)
+    }
+
+    impossibleHint = hints.column.find(this.#hintExceedsMaxSize(this.height))
+    if (impossibleHint) {
+      throw new ImpossibleHintError('column', this.height, impossibleHint)
+    }
   }
+
+  #hintExceedsMaxSize = (boardSize: number) => (hint: Hint) =>
+    this.#toFootprint(hint) > boardSize
+
+  #toFootprint = (hint: Hint) => sum(hint) + hint.length - 1
 }
 
 export default Board
