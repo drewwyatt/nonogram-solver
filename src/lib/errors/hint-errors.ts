@@ -6,7 +6,7 @@ abstract class HintError extends NonogramError {
   }
 }
 
-export class InvalidFormat extends HintError {
+export class InvalidFormatError extends HintError {
   constructor(value: unknown) {
     super(
       'Invalid Format',
@@ -15,7 +15,7 @@ export class InvalidFormat extends HintError {
   }
 }
 
-export class InvalidLength extends HintError {
+export class InvalidLengthError extends HintError {
   constructor(rowOrColumn: 'row' | 'column', expected: number, received: number) {
     super(
       'Invalid Length',
