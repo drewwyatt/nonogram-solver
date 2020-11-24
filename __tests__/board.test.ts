@@ -1,7 +1,7 @@
 import { equals, filter, repeat } from 'ramda'
-import Board from './board'
-import Cell from './cell'
-import hint, { Hint } from './hint'
+import Board from '~/models/board'
+import Cell from '~/models/cell'
+import hint, { Hint } from '~/models/hint'
 
 /**
  *  0, 1, 2, 3, 4

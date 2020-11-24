@@ -1,7 +1,7 @@
 import { repeat } from 'ramda'
-import Cell from './cell'
-import hint from './hint'
-import Slice from './slice'
+import Cell from '~/models/cell'
+import hint from '~/models/hint'
+import Slice from '~/models/slice'
 
 describe('slice', () => {
   /**
