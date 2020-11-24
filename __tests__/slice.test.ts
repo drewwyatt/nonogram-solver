@@ -24,14 +24,14 @@ describe('slice', () => {
   })
 
   describe('solved', () => {
-    it('reports solved === false when row contains any unknown cells', () => {
+    it('reports solved === false when slice contains any unknown cells', () => {
       expect(slice1.solved).toEqual(false)
       for (let i = 0; i < slice1.cells.length - 1; i++) {
         slice1.cells[i] = Cell.Filled
       }
     })
 
-    it('reports solved === true when row contains any unknown cells', () => {
+    it('reports solved === true when slice contains no unknown cells', () => {
       for (let i = 0; i < slice1.cells.length; i++) {
         slice1.cells[i] = Cell.Filled
       }
