@@ -3,4 +3,5 @@ module.exports = {
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/src/lib/$1',
   },
+  testPathIgnorePatterns: ['/node_modules/', '/fixtures/'],
 }
