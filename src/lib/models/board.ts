@@ -30,6 +30,7 @@ class Board {
           cells: this.cells,
           hints: this.#rowHints,
           width: this.width,
+          height: this.height,
         }),
       this.height,
     )
@@ -39,6 +40,7 @@ class Board {
           cells: this.cells,
           hints: this.#columnHints,
           width: this.width,
+          height: this.height,
         }),
       this.width,
     )
