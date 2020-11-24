@@ -95,4 +95,27 @@ describe('Board', () => {
       })
     })
   })
+
+  describe('solved', () => {
+    let board: Board
+    beforeEach(() => {
+      board = subject()
+    })
+
+    it('reports solved === false when any rows or columns are unsolved', () => {
+      expect(board.solved).toEqual(false)
+      for (let i = 0; i < board.cells.length - 1; i++) {
+        board.cells[i] = Cell.Filled
+      }
+      expect(board.solved).toEqual(false)
+    })
+
+    it('reports solved === true when all rows and columns are solved', () => {
+      expect(board.solved).toEqual(false)
+      for (let i = 0; i < board.cells.length; i++) {
+        board.cells[i] = Cell.Filled
+      }
+      expect(board.solved).toEqual(true)
+    })
+  })
 })

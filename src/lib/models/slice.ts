@@ -14,7 +14,7 @@ class Slice {
   cells: Cell[]
   readonly hint: Hint
 
-  #solved: boolean | null = null
+  #solved: boolean = false
 
   constructor(public index: number, axis: 'row' | 'column', boardInfo: BoardInfo) {
     this.cells = new Proxy(boardInfo.cells, {
@@ -38,7 +38,6 @@ class Slice {
           return false
         }
 
-        this.#solved = null // a value changed reset the computed solved value
         target[index as number] = value
         return true
       },
@@ -47,7 +46,7 @@ class Slice {
   }
 
   get solved(): boolean {
-    if (this.#solved === null) {
+    if (!this.#solved) {
       this.#solved = this.cells.every(compose(not, equals(Cell.Unknown)))
     }
 

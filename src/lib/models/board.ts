@@ -1,4 +1,4 @@
-import { repeat, sum, times } from 'ramda'
+import { propEq, repeat, sum, times } from 'ramda'
 import { ImpossibleHintError } from '~/errors/hint-errors'
 import { Hint } from './hint'
 import Cell from './cell'
@@ -43,6 +43,13 @@ class Board {
           height: this.height,
         }),
       this.width,
+    )
+  }
+
+  get solved(): boolean {
+    return (
+      this.rows.every(propEq('solved', true)) &&
+      this.columns.every(propEq('solved', true))
     )
   }
 

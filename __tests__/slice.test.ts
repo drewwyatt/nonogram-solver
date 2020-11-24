@@ -29,12 +29,15 @@ describe('slice', () => {
       for (let i = 0; i < slice1.cells.length - 1; i++) {
         slice1.cells[i] = Cell.Filled
       }
+      expect(slice1.solved).toEqual(false)
     })
 
     it('reports solved === true when slice contains no unknown cells', () => {
+      expect(slice1.solved).toEqual(false)
       for (let i = 0; i < slice1.cells.length; i++) {
         slice1.cells[i] = Cell.Filled
       }
+      expect(slice1.solved).toEqual(true)
     })
   })
 
