@@ -1,17 +1,18 @@
 import Board from './models/board'
 import Cell from './models/cell'
 import Slice from './models/slice'
+import solveWhole from './steps/whole-slice'
 
 const MAX_LOOPS = 10 // extremely low because fixtures are simple (for now)
 
 const solveSlice = (slice: Slice) => {
-  for (let clue of slice.hint) {
-    if (clue === 0) {
-      // empty slice
-      slice.cells.forEach((_, idx) => {
-        slice.cells[idx] = Cell.Unfilled
-      })
-    }
+  if (slice.hint.length === 1 && slice.hint[0] === 0) {
+    // empty slice
+    slice.cells.forEach((_, idx) => {
+      slice.cells[idx] = Cell.Unfilled
+    })
+  } else {
+    solveWhole(slice)
   }
 }
 
