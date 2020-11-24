@@ -15,15 +15,6 @@ export class InvalidFormatError extends HintError {
   }
 }
 
-export class InvalidLengthError extends HintError {
-  constructor(rowOrColumn: 'row' | 'column', expected: number, received: number) {
-    super(
-      'Invalid Length',
-      `${rowOrColumn} size is ${expected}, received ${received} hints`,
-    )
-  }
-}
-
 export class ImpossibleHintError extends HintError {
   constructor(rowOrColumn: 'row' | 'column', size: number, hint: number[]) {
     super(

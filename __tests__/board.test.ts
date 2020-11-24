@@ -17,7 +17,7 @@ describe('Board', () => {
   const subject = (
     row: Hint[] = repeat(hint(0), width),
     column: Hint[] = repeat(hint(0), height),
-  ) => new Board(width, height, { hints: { row, column } })
+  ) => new Board(row, column)
 
   describe('setup', () => {
     it('has the correct number of cells', () => {
@@ -34,16 +34,6 @@ describe('Board', () => {
 
     it('has the configured number of columns', () => {
       expect(subject().columns.length).toEqual(height)
-    })
-
-    it('throws if there are too many hints', () => {
-      expect(() => subject(repeat(hint(0), width + 1))).toThrowError()
-    })
-
-    it('throws if there are not enough hints', () => {
-      expect(() =>
-        subject(repeat(hint(0), width), repeat(hint(0), height - 1)),
-      ).toThrowError()
     })
 
     it('does not throw if a hint is exactly the right size', () => {
