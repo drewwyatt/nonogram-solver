@@ -14,9 +14,15 @@ class Slice {
   cells: Cell[]
   readonly hint: Hint
 
+  #axis: 'row' | 'column'
+  #boardWidth: number
+  #boardHeight: number
   #solved: boolean = false
 
   constructor(public index: number, axis: 'row' | 'column', boardInfo: BoardInfo) {
+    this.#axis = axis
+    this.#boardWidth = boardInfo.width
+    this.#boardHeight = boardInfo.height
     this.cells = new Proxy(boardInfo.cells, {
       get: (target, prop) => {
         const key = this.#toIndexOrKeyFor(axis, boardInfo, prop)
@@ -27,7 +33,9 @@ class Slice {
         // this is gross
         switch (prop) {
           case 'length':
-            return axis === 'row' ? boardInfo.width : boardInfo.height
+            return this.length
+          case 'forEach':
+            return this.#forEach
           default:
             return target[key]
         }
@@ -45,12 +53,22 @@ class Slice {
     this.hint = boardInfo.hints[index]
   }
 
+  get length(): number {
+    return this.#axis === 'row' ? this.#boardWidth : this.#boardHeight
+  }
+
   get solved(): boolean {
     if (!this.#solved) {
       this.#solved = this.cells.every(compose(not, equals(Cell.Unknown)))
     }
 
     return this.#solved
+  }
+
+  #forEach = (cb: (cell: Cell, index: number) => void): void => {
+    for (let i = 0; i < this.length; i++) {
+      cb(this.cells[i], i)
+    }
   }
 
   #toIndexOrKeyFor = (
